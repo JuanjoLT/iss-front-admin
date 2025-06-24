@@ -1,0 +1,6 @@
+{
+  "funcionarios": [
+    { "id": 1, "nombre": "Juan Pérez", "rut": "12345678-9", "email": "juan@example.com", "telefono": "987654321", "unidad": "Hospital A" },
+    { "id": 2, "nombre": "María González", "rut": "87654321-K", "email": "maria@example.com", "telefono": "987654322", "unidad": "Clínica B" }
+  ]
+}
