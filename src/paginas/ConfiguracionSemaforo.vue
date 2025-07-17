@@ -29,11 +29,7 @@ import { ref, onMounted } from 'vue'
 import { obtenerConfiguracion, actualizarConfiguracion } from '@/services/api'
 import Alerta from '@/components/Alerta.vue'
 import SemaforoDemo from '@/components/SemaforoDemo.vue'
-
-interface ConfiguracionSemaforo {
-  verde: number
-  amarillo: number
-}
+import type { ConfiguracionSemaforo } from '@/components/types'
 
 const configuracion = ref<ConfiguracionSemaforo>({ verde: 0, amarillo: 0 })
 const mensaje = ref('')

@@ -40,9 +40,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { obtenerLogs } from '@/services/api'  // Asegúrate de tener esta función en tu api.ts
+import { obtenerLogs } from '@/services/api'
 
-// Definir la interfaz de Log para TypeScript
 
 interface Log {
   id: number
@@ -71,13 +70,15 @@ onMounted(() => {
 
 // Computed para filtrar los logs según el texto del filtro
 const logsFiltrados = computed(() => {
-  if (!filtro.value) return logs.value
-  return logs.value.filter(log =>
+  const filtrados = logs.value.filter(log =>
     Object.values(log).some(value =>
       String(value).toLowerCase().includes(filtro.value.toLowerCase())
     )
   )
+  
+  return filtrados.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
 })
+
 </script>
 
 <style scoped>

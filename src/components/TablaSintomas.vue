@@ -1,58 +1,85 @@
 <template>
-  <div class="tabla-sintomas">
-    <!-- Campo de búsqueda -->
-    <input v-model="filtro" placeholder="Buscar..." class="input-busqueda" />
-
-    <!-- Tabla -->
-    <table class="w-full mt-3 border-collapse">
+  <div class="overflow-x-auto">
+    <table class="tabla">
       <thead>
         <tr>
-          <th class="border p-2">Nombre</th>
-          <th class="border p-2">Puntuación</th>
-          <th class="border p-2">Acciones</th>
+          <th class="col-nombre">Nombre</th>
+          <th class="col-descripcion">Descripción</th>
+          <th class="col-tipo">Tipo</th>
+          <th class="col-min">Puntaje Minimo</th>
+          <th class="col-max">Puntaje Maximo</th>
+          <th class="col-ref">Valor de referencia</th>
+          <th class="col-acciones">Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="sintoma in sintomasFiltrados" :key="sintoma.id">
-          <td class="border p-2">{{ sintoma.nombre }}</td>
-          <td class="border p-2">{{ sintoma.puntuacion }}</td>
-          <td class="border p-2">
-            <button @click="$emit('editar', sintoma)">Editar</button>
-            <button @click="$emit('eliminar', sintoma.id)">Eliminar</button>
+        <tr v-for="sintoma in sintomas" :key="sintoma.id">
+          <td>{{ sintoma.nombre }}</td>
+          <td>{{ sintoma.descripcion }}</td>
+          <td>{{ sintoma.tipo }}</td>
+          <td>{{ sintoma.puntajeMinimo ?? '-' }}</td>
+          <td>{{ sintoma.puntajeMaximo }}</td>
+          <td>{{ sintoma.valorReferencia ?? '-' }}</td>
+          <td>
+            <button class="btn btn-outline-primary btn-sm mr-1" @click="$emit('editar', sintoma)">Editar</button>
+            <button class="btn btn-outline-danger btn-sm" @click="$emit('eliminar', sintoma.id)">Eliminar</button>
           </td>
-        </tr v-for="sintoma in sintomasFiltrados" :key="sintoma.id ?? sintoma.nombre">
+        </tr>
       </tbody>
     </table>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineProps } from 'vue'
-
-interface Sintoma {
-  id?: number
-  nombre: string
-  puntuacion: number
-}
-
-const props = defineProps<{
-  sintomas: Sintoma[]
+defineProps<{
+  sintomas: {
+    id: number
+    nombre: string
+    descripcion: string
+    tipo: 'simple' | 'compuesto'
+    puntajeMinimo?: number
+    puntajeMaximo: number
+    valorReferencia?: number
+  }[]
 }>()
-
-
-const filtro = ref('')
-
-const sintomasFiltrados = computed(() =>
-  props.sintomas.filter((s) =>
-    `${s.nombre} ${s.puntuacion}`.toLowerCase().includes(filtro.value.toLowerCase())
-  )
-)
 </script>
 
 <style scoped>
-.input-busqueda {
+.tabla {
   width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
   padding: 8px;
-  margin-bottom: 10px;
+  word-wrap: break-word;
+  vertical-align: top;
+}
+th {
+  background-color: #f0f0f0;
+  text-align: left;
+}
+
+.col-nombre { min-width: 120px; }
+.col-descripcion { min-width: 400px; }
+.col-tipo, .col-min, .col-max, .col-ref { min-width: 80px; }
+.col-acciones { min-width: 160px; }
+
+.btn {
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  border-radius: 4px;
+}
+.btn-outline-primary {
+  background-color: #e7f1ff;
+  color: #1d4ed8;
+  border: 1px solid #1d4ed8;
+}
+.btn-outline-danger {
+  background-color: #ffe7e7;
+  color: #b91c1c;
+  border: 1px solid #b91c1c;
 }
 </style>

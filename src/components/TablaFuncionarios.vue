@@ -1,88 +1,111 @@
 <template>
-  <div class="tabla-funcionarios">
-    <!-- Campo de búsqueda -->
-    <input v-model="filtro" placeholder="Buscar..." class="input-busqueda" />
+  <div class="tabla-funcionarios overflow-x-auto">
+    <input v-model="filtro" placeholder="Buscar..." class="input-busqueda mb-3" />
 
-    <!-- Tabla con paginación -->
-    <table>
+    <table class="tabla">
       <thead>
         <tr>
-          <th>Nombre</th>
-          <th>RUT</th>
-          <th>Email</th>
-          <th>Teléfono</th>
-          <th>Unidad</th>
-          <th>Acciones</th>
+          <th class="col-nombre">Nombre</th>
+          <th class="col-rut">RUT</th>
+          <th class="col-email">Email</th>
+          <th class="col-telefono">Teléfono</th>
+          <th class="col-unidad">Unidad</th>
+          <th class="col-profesion">Profesión</th>
+          <th class="col-acciones">Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="funcionario in funcionariosFiltrados" :key="funcionario.rut">
+        <tr v-for="funcionario in funcionariosFiltrados" :key="funcionario.id">
           <td>{{ funcionario.nombre }}</td>
           <td>{{ funcionario.rut }}</td>
           <td>{{ funcionario.email }}</td>
           <td>{{ funcionario.telefono }}</td>
           <td>{{ funcionario.unidad }}</td>
+          <td>{{ funcionario.profesion }}</td>
           <td>
-            <button @click="$emit('editar', funcionario)">Editar</button>
-            <button @click="$emit('eliminar', funcionario)">Eliminar</button>
+            <button @click="$emit('editar', funcionario)" class="btn btn-outline-primary">Editar</button>
+            <button @click="$emit('eliminar', funcionario.id)" class="btn btn-outline-danger">Eliminar</button>
           </td>
         </tr>
       </tbody>
     </table>
-
-    <!-- Controles de paginación -->
-    <div class="paginacion">
-      <button @click="paginaActual--" :disabled="paginaActual === 1">Anterior</button>
-      <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
-      <button @click="paginaActual++" :disabled="paginaActual >= totalPaginas">Siguiente</button>
-    </div>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, defineProps } from 'vue'
 
-const props = defineProps<{
-  funcionarios: {
-    nombre: string
-    rut: string
-    email: string
-    telefono: string
-    unidad: string
-  }[]
-}>()
+interface Funcionario {
+  id: number
+  nombre: string
+  rut: string
+  email: string
+  telefono: string
+  unidad: string
+  profesion: string
+}
 
+const props = defineProps<{ funcionarios: Funcionario[] }>()
 const filtro = ref('')
 const paginaActual = ref(1)
-const funcionariosPorPagina = 5 // 🔧 Número de funcionarios por página
+const funcionariosPorPagina = 5
 
-// 🔎 Filtrado en tiempo real
 const funcionariosFiltrados = computed(() => {
-  const filtrados = props.funcionarios.filter(funcionario =>
-    Object.values(funcionario).join(' ').toLowerCase().includes(filtro.value.toLowerCase())
+  const filtrados = props.funcionarios.filter(f =>
+    Object.values(f).join(' ').toLowerCase().includes(filtro.value.toLowerCase())
   )
-
-  // Aplicar paginación
   const inicio = (paginaActual.value - 1) * funcionariosPorPagina
   return filtrados.slice(inicio, inicio + funcionariosPorPagina)
 })
-
-// 🔄 Total de páginas
-const totalPaginas = computed(() => Math.ceil(props.funcionarios.length / funcionariosPorPagina))
 </script>
 
 <style scoped>
-.input-busqueda {
+.tabla {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
+  table-layout: fixed;
+  border-collapse: collapse;
 }
 
-.paginacion {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  word-wrap: break-word;
+  vertical-align: top;
+}
+
+th {
+  background-color: #f5f5f5;
+  text-align: left;
+}
+
+.col-nombre { min-width: 120px; }
+.col-rut { min-width: 110px; }
+.col-email { min-width: 180px; }
+.col-telefono { min-width: 120px; }
+.col-unidad { min-width: 120px; }
+.col-profesion { min-width: 130px; }
+.col-acciones { min-width: 160px; }
+
+.btn {
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  margin-right: 4px;
+}
+.btn-outline-primary {
+  background-color: #e7f1ff;
+  color: #1d4ed8;
+  border: 1px solid #1d4ed8;
+}
+.btn-outline-primary:hover {
+  background-color: #cfe0ff;
+}
+.btn-outline-danger {
+  background-color: #ffe7e7;
+  color: #b91c1c;
+  border: 1px solid #b91c1c;
+}
+.btn-outline-danger:hover {
+  background-color: #ffc9c9;
 }
 </style>

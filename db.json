@@ -1,6 +1,151 @@
 {
   "funcionarios": [
-    { "id": 1, "nombre": "Juan Pérez", "rut": "12345678-9", "email": "juan@example.com", "telefono": "987654321", "unidad": "Hospital A" },
-    { "id": 2, "nombre": "María González", "rut": "87654321-K", "email": "maria@example.com", "telefono": "987654322", "unidad": "Clínica B" }
+    {
+      "id": "e762",
+      "nombre": "dfssdf",
+      "rut": "12313112-1",
+      "email": "qg@gmail.com",
+      "telefono": "1231232112",
+      "unidad": "Hospital A",
+      "profesion": "Doctor"
+    }
+  ],
+  "sintomas": [
+    {
+      "id": "fdfb",
+      "nombre": "Tos",
+      "tipo": "simple",
+      "puntajeMaximo": 10,
+      "descripcion": "kldfs glkdfjg kldf jglkdf jklgdf klgdfj klg dfj klsdfj kcjklgdfj lkgdfjmgl kssdfgl"
+    },
+    {
+      "id": "3d48",
+      "nombre": "Cancer",
+      "tipo": "compuesto",
+      "puntajeMaximo": 100,
+      "puntajeMinimo": 10,
+      "valorReferencia": 21.5,
+      "descripcion": "sdfghfghfghdfdghfghddfghdfghdfghdfghdfghdfghdfghhdfgdfghdfgh"
+    },
+    {
+      "id": "9400",
+      "nombre": "Fiebre",
+      "descripcion": "dolor de cabeza",
+      "tipo": "compuesto",
+      "puntajeMaximo": 50,
+      "puntajeMinimo": 5,
+      "valorReferencia": 36.5
+    }
+  ],
+  "unidades": [
+    {
+      "id": "9cb1",
+      "nombre": "Hospital A",
+      "calle": "sdfsdf",
+      "comuna": "sdfsdf",
+      "region": "sdfsdf",
+      "telefono": "123123121"
+    }
+  ],
+  "configuracion-semaforo": {
+    "verde": 10,
+    "amarillo": 50
+  },
+  "logs": [
+    {
+      "id": "c4fc",
+      "fecha": "2025-07-15T21:25:29.443Z",
+      "usuario": "Administrador",
+      "accion": "Actualizar Funcionario",
+      "descripcion": "Se actualizó el funcionario dfssdf"
+    },
+    {
+      "id": "05ae",
+      "fecha": "2025-07-15T21:26:13.425Z",
+      "usuario": "Administrador",
+      "accion": "Crear Enfermedad",
+      "descripcion": "Se creó la enfermedad \"sdfsdf\" con síntomas: Cancer, Tos"
+    },
+    {
+      "id": "26f3",
+      "fecha": "2025-07-15T21:27:15.372Z",
+      "usuario": "Administrador",
+      "accion": "Eliminar Síntoma",
+      "descripcion": "Se eliminó el síntoma \"a\""
+    }
+  ],
+  "enfermedades": [
+    {
+      "nombre": "Cancer",
+      "descripcion": "lol",
+      "sintomas": [
+        {
+          "id": "3d48",
+          "puntajeMaximo": 100,
+          "puntajeMinimo": 0,
+          "valorReferencia": 35.6
+        },
+        {
+          "id": "fdfb",
+          "puntajeMaximo": 100,
+          "puntajeMinimo": 0
+        }
+      ],
+      "id": "ba18"
+    },
+    {
+      "id": "62a9",
+      "nombre": "sdfsd",
+      "descripcion": "",
+      "sintomas": [
+        {
+          "id": "fdfb",
+          "puntajeMaximo": 10,
+          "puntajeMinimo": 0
+        }
+      ]
+    },
+    {
+      "id": "74e3",
+      "nombre": "sdfsdf",
+      "descripcion": "sdfsdf",
+      "sintomas": [
+        {
+          "id": "3d48",
+          "puntajeMaximo": 100,
+          "puntajeMinimo": 5,
+          "valorReferencia": 10
+        },
+        {
+          "id": "fdfb",
+          "puntajeMaximo": 100,
+          "puntajeMinimo": 0
+        }
+      ]
+    }
+  ],
+  "profesiones": [
+    {
+      "nombre": "Enfermero",
+      "id": "9588"
+    },
+    {
+      "id": "f163",
+      "nombre": "Doctor"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "admin123",
+      "nombre": "Administrador"
+    },
+    {
+      "id": "2",
+      "username": "doctor1",
+      "password": "doctor123",
+      "nombre": "Fernando Gonzalez"
+    }
   ]
 }

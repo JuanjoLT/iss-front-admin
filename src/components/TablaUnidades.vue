@@ -1,28 +1,26 @@
 <template>
-  <div class="tabla-unidades">
-    <input v-model="filtro" placeholder="Buscar..." class="input-busqueda" />
-
-    <table class="w-full mt-3 border-collapse">
+  <div class="overflow-x-auto">
+    <table class="tabla">
       <thead>
         <tr>
-          <th class="border p-2">Nombre</th>
-          <th class="border p-2">Calle</th>
-          <th class="border p-2">Comuna</th>
-          <th class="border p-2">Región</th>
-          <th class="border p-2">Teléfono</th>
-          <th class="border p-2">Acciones</th>
+          <th class="col-nombre">Nombre</th>
+          <th class="col-calle">Calle</th>
+          <th class="col-comuna">Comuna</th>
+          <th class="col-region">Región</th>
+          <th class="col-telefono">Teléfono</th>
+          <th class="col-acciones">Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="unidad in unidadesFiltradas" :key="unidad.id ?? unidad.nombre">
-          <td class="border p-2">{{ unidad.nombre }}</td>
-          <td class="border p-2">{{ unidad.calle }}</td>
-          <td class="border p-2">{{ unidad.comuna }}</td>
-          <td class="border p-2">{{ unidad.region }}</td>
-          <td class="border p-2">{{ unidad.telefono }}</td>
-          <td class="border p-2">
-            <button @click="$emit('editar', unidad)">Editar</button>
-            <button @click="$emit('eliminar', unidad.id)">Eliminar</button>
+        <tr v-for="unidad in unidadesFiltradas" :key="unidad.id">
+          <td>{{ unidad.nombre }}</td>
+          <td>{{ unidad.calle }}</td>
+          <td>{{ unidad.comuna }}</td>
+          <td>{{ unidad.region }}</td>
+          <td>{{ unidad.telefono }}</td>
+          <td>
+            <button @click="$emit('editar', unidad)" class="btn btn-outline-primary">Editar</button>
+            <button @click="$emit('eliminar', unidad.id)" class="btn btn-outline-danger">Eliminar</button>
           </td>
         </tr>
       </tbody>
@@ -34,34 +32,54 @@
 import { ref, computed, defineProps } from 'vue'
 
 interface Unidad {
-  id?: number
+  id: number
   nombre: string
   calle: string
   comuna: string
   region: string
   telefono: string
 }
-
-const props = defineProps<{
-  unidades: Unidad[]
-}>()
-
+const props = defineProps<{ unidades: Unidad[] }>()
 const filtro = ref('')
 
 const unidadesFiltradas = computed(() =>
   props.unidades.filter((u) =>
-    Object.values(u)
-      .join(' ')
-      .toLowerCase()
-      .includes(filtro.value.toLowerCase())
+    Object.values(u).join(' ').toLowerCase().includes(filtro.value.toLowerCase())
   )
 )
 </script>
 
 <style scoped>
-.input-busqueda {
+.tabla {
   width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ddd;
   padding: 8px;
-  margin-bottom: 10px;
+  word-wrap: break-word;
+  vertical-align: top;
+}
+th {
+  background-color: #f5f5f5;
+}
+
+.col-nombre,
+.col-calle,
+.col-comuna,
+.col-region,
+.col-telefono {
+  min-width: 150px;
+}
+.col-acciones {
+  min-width: 160px;
+}
+
+.btn {
+  padding: 4px 8px;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  margin-right: 4px;
 }
 </style>

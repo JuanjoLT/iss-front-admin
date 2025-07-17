@@ -1,27 +1,79 @@
 <template>
   <form @submit.prevent="manejarEnvio">
-    <label>Nombre:</label>
-    <input v-model="form.nombre" required />
+    <div class="flex flex-wrap gap-y-4">
+      <div class="me-4" style="min-width: 200px">
+        <label>Nombre:</label>
+        <input
+          v-model="form.nombre"
+          required
+          maxlength="50"
+          @input="validarNombre"
+          :class="{ 'border-red-500': errores.nombre }"
+          class="w-full"
+        />
+        <p v-if="errores.nombre" class="error">{{ errores.nombre }}</p>
+      </div>
 
-    <label>RUT:</label>
-    <input v-model="form.rut" @input="validarRut" required />
-    <p v-if="errores.rut" class="error">{{ errores.rut }}</p>
+      <div class="me-4" style="min-width: 150px">
+        <label>RUT:</label>
+        <input
+          v-model="form.rut"
+          @input="validarRut"
+          required
+          maxlength="10"
+          :class="{ 'border-red-500': errores.rut }"
+          class="w-full"
+        />
+        <p v-if="errores.rut" class="error">{{ errores.rut }}</p>
+      </div>
 
-    <label>Email:</label>
-    <input v-model="form.email" @input="validarEmail" type="email" required />
-    <p v-if="errores.email" class="error">{{ errores.email }}</p>
+      <div class="me-4" style="min-width: 220px">
+        <label>Email:</label>
+        <input
+          v-model="form.email"
+          @input="validarEmail"
+          type="email"
+          required
+          maxlength="100"
+          :class="{ 'border-red-500': errores.email }"
+          class="w-full"
+        />
+        <p v-if="errores.email" class="error">{{ errores.email }}</p>
+      </div>
 
-    <label>Teléfono:</label>
-    <input v-model="form.telefono" @input="validarTelefono" required />
-    <p v-if="errores.telefono" class="error">{{ errores.telefono }}</p>
+      <div class="me-4" style="min-width: 160px">
+        <label>Teléfono:</label>
+        <input
+          v-model="form.telefono"
+          @input="validarTelefono"
+          required
+          maxlength="12"
+          :class="{ 'border-red-500': errores.telefono }"
+          class="w-full"
+        />
+        <p v-if="errores.telefono" class="error">{{ errores.telefono }}</p>
+      </div>
 
-    <label>Unidad de Referencia:</label>
-    <select v-model="form.unidad" required>
-      <option disabled value="">Selecciona una unidad</option>
-      <option v-for="unidad in unidades" :key="unidad" :value="unidad">
-        {{ unidad }}
-      </option>
-    </select>
+      <div class="me-4" style="min-width: 200px">
+        <label>Unidad de Referencia:</label>
+        <select v-model="form.unidad" required class="w-full">
+          <option disabled value="">Selecciona una unidad</option>
+          <option v-for="unidad in unidades" :key="unidad" :value="unidad">
+            {{ unidad }}
+          </option>
+        </select>
+      </div>
+
+      <div style="min-width: 200px">
+        <label>Profesión:</label>
+        <select v-model="form.profesion" required class="w-full">
+          <option disabled value="">Selecciona una profesión</option>
+          <option v-for="profesion in profesiones" :key="profesion" :value="profesion">
+            {{ profesion }}
+          </option>
+        </select>
+      </div>
+    </div>
 
     <div class="mt-4">
       <button type="submit" class="btn-primary" :disabled="tieneErrores">
@@ -34,60 +86,66 @@
   </form>
 </template>
 
-<script lang="ts" setup>
-import { ref, watch, computed, defineProps, defineEmits } from 'vue'
+<script setup lang="ts">
+import { ref, watch, computed, defineProps, defineEmits, onMounted } from 'vue'
+import { obtenerUnidades, obtenerProfesiones } from '@/services/api'
+import type { Funcionario } from '@/components/types'
 
 const props = defineProps<{
   modoEdicion: boolean
-  funcionarioSeleccionado: {
-    id?: number
-    nombre: string
-    rut: string
-    email: string
-    telefono: string
-    unidad: string
-  } | null
+  funcionarioSeleccionado: Funcionario | null
 }>()
 
 const emit = defineEmits<{
-  (e: 'guardado', funcionario: typeof form.value): void
+  (e: 'guardado', funcionario: Funcionario): void
   (e: 'cancelar'): void
 }>()
 
-const unidades = ['Hospital A', 'Clínica B', 'CESFAM C']
+const unidades = ref<string[]>([])
+const profesiones = ref<string[]>([])
 
-const form = ref({
+onMounted(async () => {
+  try {
+    const datosUnidades = await obtenerUnidades()
+    unidades.value = datosUnidades.map((u: any) => u.nombre)
+
+    const datosProfesiones = await obtenerProfesiones()
+    profesiones.value = datosProfesiones.map((p: any) => p.nombre)
+  } catch (error) {
+    console.error('Error al cargar unidades o profesiones:', error)
+  }
+})
+
+const form = ref<Funcionario>({
   id: undefined,
   nombre: '',
   rut: '',
   email: '',
   telefono: '',
-  unidad: ''
+  unidad: '',
+  profesion: ''
 })
 
 const errores = ref({
+  nombre: '',
   rut: '',
   email: '',
   telefono: ''
 })
 
-// Si recibimos un funcionario seleccionado, lo cargamos al formulario
-watch(
-  () => props.funcionarioSeleccionado,
-  (nuevo) => {
-    if (nuevo) {
-      const { id, ...resto } = nuevo
-      Object.assign(form.value, resto)
-    } else {
-      limpiarFormulario()
-    }
-  },
-  { immediate: true }
-)
+// Validaciones individuales
+function validarNombre() {
+  const regexNombre = /^[A-Za-zÁÉÍÓÚÑáéíóúñ\s]+$/
+  errores.value.nombre =
+    form.value.nombre.length > 50
+      ? 'Máximo 50 caracteres'
+      : regexNombre.test(form.value.nombre)
+      ? ''
+      : 'Nombre inválido (solo letras y espacios)'
+}
 
-// 🔧 Validaciones de formulario
 function validarRut() {
-  const regexRut = /^[0-9]{7,8}-[0-9Kk]$/ // Formato RUT chileno
+  const regexRut = /^[0-9]{7,8}-[0-9Kk]$/
   errores.value.rut = regexRut.test(form.value.rut) ? '' : 'RUT inválido'
 }
 
@@ -98,12 +156,32 @@ function validarEmail() {
 
 function validarTelefono() {
   const regexTelefono = /^[0-9]{9,12}$/
-  errores.value.telefono = regexTelefono.test(form.value.telefono) ? '' : 'Teléfono inválido'
+  errores.value.telefono = regexTelefono.test(form.value.telefono)
+    ? ''
+    : 'Teléfono inválido (9-12 dígitos)'
 }
 
-const tieneErrores = computed(() => !!errores.value.rut || !!errores.value.email || !!errores.value.telefono)
+const tieneErrores = computed(() =>
+  Object.values(errores.value).some(e => e.length > 0)
+)
+
+watch(
+  () => props.funcionarioSeleccionado,
+  (nuevo) => {
+    if (nuevo) {
+      form.value = { ...nuevo }
+    } else {
+      limpiarFormulario()
+    }
+  },
+  { immediate: true }
+)
 
 function manejarEnvio() {
+  validarNombre()
+  validarRut()
+  validarEmail()
+  validarTelefono()
   if (!tieneErrores.value) {
     emit('guardado', { ...form.value })
     limpiarFormulario()
@@ -117,9 +195,10 @@ function limpiarFormulario() {
     rut: '',
     email: '',
     telefono: '',
-    unidad: ''
+    unidad: '',
+    profesion: ''
   }
-  errores.value = { rut: '', email: '', telefono: '' } // 🔧 Reset de errores
+  errores.value = { nombre: '', rut: '', email: '', telefono: '' }
 }
 </script>
 
@@ -128,6 +207,10 @@ function limpiarFormulario() {
   color: red;
   font-size: 0.9rem;
   margin-top: 5px;
+}
+input:invalid,
+input.border-red-500 {
+  border: 2px solid red;
 }
 .btn-primary {
   @apply bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700;

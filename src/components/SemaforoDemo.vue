@@ -21,7 +21,6 @@
 <script lang="ts" setup>
 import { ref, computed, defineProps } from 'vue'
 
-// Recibimos la configuración actual del semáforo
 const props = defineProps<{
   configuracion: {
     verde: number
@@ -29,7 +28,6 @@ const props = defineProps<{
   }
 }>()
 
-// Variable local para el puntaje introducido en la prueba
 const total = ref(0)
 
 // Lógica para determinar el color (reglas:  
