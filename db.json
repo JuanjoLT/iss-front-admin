@@ -72,6 +72,20 @@
       "usuario": "Administrador",
       "accion": "Eliminar Síntoma",
       "descripcion": "Se eliminó el síntoma \"a\""
+    },
+    {
+      "id": "7d94",
+      "fecha": "2025-07-17T02:18:25.658Z",
+      "usuario": "Fernando Gonzalez",
+      "accion": "Actualizar Profesión",
+      "descripcion": "Se actualizó la profesión \"Enfermero\""
+    },
+    {
+      "id": "77e3",
+      "fecha": "2025-07-17T02:18:31.957Z",
+      "usuario": "Fernando Gonzalez",
+      "accion": "Crear Profesión",
+      "descripcion": "Se creó la profesión \"Paramedico\""
     }
   ],
   "enfermedades": [
@@ -132,6 +146,10 @@
     {
       "id": "f163",
       "nombre": "Doctor"
+    },
+    {
+      "id": "3414",
+      "nombre": "Paramedico"
     }
   ],
   "usuarios": [
