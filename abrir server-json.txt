@@ -1,0 +1,4 @@
+1. para abrir el server json:
+json-server --watch db.json --port 3000 (se necesita primero instalar el server json: npm install -g json-server)
+2. abrir la pagina:
+npm run dev

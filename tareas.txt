@@ -1,0 +1,74 @@
+19-06
+- despues de arreglar las tablas, tengo que arreglar en primer lugar lo que seria el como seleccionar los sintomas para las enfermedades,
+asi como hacer que se guarden las enfermedades en el logs,
+- 
+20-06
+- por hacer:
+    - cambiar el modo de agregar sintomas a las enfermedades (nota: quiero que sea del mismo modo en que uno seleciona el tipo de sintoma como esta en gestionar sintomas,
+    quiero que se seleccione el sintoma, y salgan los puntaje minimo, maximo y valor de referencia (este ultimo solo si el sintoma es compuesto, que estan
+    descritos previamente en sintomas), y que estos se puedan modificar pero localmente, o sea, solo para esa enfermedad en concreto, y que si en alguna otra
+    enfermedad se selecciona dicho sintoma, conserve los valores que estan declarados ya en sintomas). Para que de este modo, si se tengan 20 sintomas, no sea
+    necesario bajar tanto para seleccionar uno, para hacerlo mas compacto esta parte.
+    - para la tabla de enfermedades, los sintomas que se muestran estos tienen solo el ID, el max, min y ref, me gustaria que para al menos la tabla visual, se mostrara
+    solamente el nombre del sintoma, y luego, cuando accedes a "Ver Detalle", en este apartado se muestre todo mas a detalle, lo que seria el nombre del sintoma, su ID y
+    los valores que agregaste localmente con anterioridad, como el maximo, minimo, y solo en caso de ser el sintoma compuesto, su valor de referencia.
+- hecho:
+    - 
+    -
+- deberes para mañana:
+    - 
+
+22-06
+- por hacer:
+    -
+
+- hecho: 
+    - cambio de agregar sintomas
+    - mejora grande en tabla de enfermedades
+    - 
+
+- para la siguiente sesion:
+    - agregar una restriccion para que el valor min > max salga como error.
+    - agregar Enfermedades al historial, para que se muestre todo lo que hace, o sea, el CRUD como esta implementado en sintomas
+
+
+25-06
+- por hacer:
+    -
+
+- hecho:
+    - el CRUD de las enfermedades ahora se muestran en los logs
+    -
+
+- por hacer (otro dia): 
+    - arreglar que se muestre el nombre del usuario que ingreso en el header 
+    - crear todo lo relacionado con las credenciales de la cuenta (cambio de:nombre,usuario,contraseña,email,etc)
+    -
+
+26-06
+- por hacer hoy:
+    - crear la pagina "cuenta" para modificar los datos del usuario logeado
+    - ajustar las tablas para las diferentes dimensiones de las pantallas
+    - hacer que se pueda ver la contraseña ingresada en el login
+    - 
+
+- hecho:
+    - inicio de sesion
+    - se muestra el nombre en el header de la pagina
+    - tablas mejoradas
+    - se puede ver la contraseña ingresada en el login
+    -
+
+
+- por hacer mañana:
+    - conectar la base de datos
+
+14/07
+- por hacer hoy:
+    -
+
+- hecho:
+    - en los logs, aparece el nombre del usuario registrado como usuario que realizo el cambio
+    - creacion de profesiones (CRUD), 
+    - visualizacion de los campos de llenado de datos
+    - 
