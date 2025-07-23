@@ -43,7 +43,6 @@ import { ref, onMounted, onUnmounted, defineProps, defineEmits } from 'vue'
 import type { Enfermedad, Sintoma } from '@/components/types'
 import { obtenerSintomas } from '@/services/api'
 
-const props = defineProps<{ enfermedad: Enfermedad }>()
 const emit = defineEmits<{ (e: 'cerrar'): void }>()
 
 const sintomasGlobales = ref<Sintoma[]>([])

@@ -7,13 +7,6 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
 
-const props = defineProps<{
-  mensaje: string
-  tipo: 'exito' | 'error'
-  visible: boolean
-}>()
-</script>
-
 <style scoped>
 .alerta {
   padding: 1rem;
