@@ -5,7 +5,12 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue'
+defineProps<{
+  mensaje: string
+  tipo: 'exito' | 'error'
+  visible: boolean
+}>()
+</script>
 
 <style scoped>
 .alerta {
